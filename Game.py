@@ -2,7 +2,7 @@ from Printer import Printer, ColorfulPrinter, BlackAndWhitePrinter
 
 class Game:
   def __init__(self, SelectedWord, PrintMethod):
-    self.SelectedWord = SelectedWord
+    self.SelectedWord = SelectedWord.lower()
     self.PrintMethod = PrintMethod
    
   def turn(self, guess, WordLength):
@@ -43,16 +43,17 @@ class Game:
       self.Printing(guess, ResultsList)
       return ResultsList.count(True) == LengthOfVictory
     
-    def isWordValid(guess, WordLength):
-        return len(guess) != WordLength
+  def isWordNotValid(self, guess, WordLength):
+      return len(guess) != WordLength or not guess.isalpha()
         
                   
   def FullGame(self, WordLength,NumberOfAllowedGuesses):
       for i in range(0, NumberOfAllowedGuesses):
           guess = input('Enter your guess: ')
-          while isWordValid(guess, WordLength):
+          while self.isWordNotValid(guess, WordLength):
              guess = input('Enter your guess: ')
-          Result = self.IsGuessCorrect(guess, WordLength)
+          lowerCaseGuess = guess.lower()
+          Result = self.IsGuessCorrect(lowerCaseGuess, WordLength)
           if Result == True:
               print ('You Won!')
               return True
